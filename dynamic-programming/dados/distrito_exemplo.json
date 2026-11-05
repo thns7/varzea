@@ -1,0 +1,29 @@
+{
+  "aviso": "Distrito, ruas e chamados FICTÍCIOS. Nenhum endereço ou dado pessoal real.",
+  "distrito": "Vila Exemplo",
+  "base": "A1",
+  "ruas": [
+    ["A1", "A2", 6], ["A2", "A3", 8], ["A3", "A4", 7],
+    ["B1", "B2", 5], ["B2", "B3", 6], ["B3", "B4", 9],
+    ["C1", "C2", 7], ["C2", "C3", 5], ["C3", "C4", 8],
+    ["D1", "D2", 12], ["D2", "D3", 10], ["D3", "D4", 14],
+    ["A1", "B1", 4], ["B1", "C1", 9], ["C1", "D1", 25],
+    ["A2", "B2", 7], ["B2", "C2", 6], ["C2", "D2", 22],
+    ["A3", "B3", 5], ["B3", "C3", 8], ["C3", "D3", 28],
+    ["A4", "B4", 6], ["B4", "C4", 7], ["C4", "D4", 30]
+  ],
+  "chamados": [
+    {"id": "C01", "servico": "Tapa-buraco", "no": "A3"},
+    {"id": "C02", "servico": "Guias, sarjetas e sarjetões - solicitar manutenção", "no": "B4"},
+    {"id": "C03", "servico": "Calçada pública - solicitar manutenção", "no": "D1"},
+    {"id": "C04", "servico": "Reformar galerias de águas de chuvas (pluviais)", "no": "D4"},
+    {"id": "C05", "servico": "Entulho e grandes objetos em via pública - solicitar remoção", "no": "A2"},
+    {"id": "C06", "servico": "Solicitar limpeza de bueiros, boca de lobo e poços de visita", "no": "B2"},
+    {"id": "C07", "servico": "Guias, sarjetas e sarjetões - solicitar manutenção", "no": "C3"},
+    {"id": "C08", "servico": "Praça e canteiro central - solicitar roçada", "no": "C1"},
+    {"id": "C09", "servico": "Recolocação e ajuste de paralelepípedo", "no": "D3"},
+    {"id": "C10", "servico": "Tapa-buraco", "no": "B3"},
+    {"id": "C11", "servico": "Córrego - solicitar limpeza", "no": "C4"},
+    {"id": "C12", "servico": "Vielas e escadarias - solicitar manutenção", "no": "D2"}
+  ]
+}

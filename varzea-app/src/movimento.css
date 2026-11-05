@@ -1,0 +1,193 @@
+/* Movimento: linguagem "arquibancada". Só transform e opacity. */
+:root { --saida: cubic-bezier(.16, 1, .3, 1); --carimbo: cubic-bezier(.34, 1.56, .64, 1); }
+
+@keyframes subir { from { opacity: 0; transform: translateY(105%); } }
+@keyframes aparecer { from { opacity: 0; transform: translateY(18px); } }
+@keyframes carimbar { from { opacity: 0; transform: scale(1.7) rotate(-7deg); } 70% { opacity: 1; } }
+@keyframes selo { from { opacity: 0; transform: scale(2) rotate(-14deg); } to { opacity: 1; transform: rotate(-3deg); } }
+@keyframes selo-gol { from { opacity: 0; transform: scale(2.2) rotate(-14deg); } }
+@keyframes pincelar { from { transform: scaleX(0); } }
+@keyframes pular-numero { from { opacity: 0; transform: translateY(-70%) scale(1.5); } }
+@keyframes flutuar { 0%, 100% { transform: translateY(-7px); } 50% { transform: translateY(7px); } }
+@keyframes entrar-celular { from { opacity: 0; transform: translateY(70px) rotate(11deg); } }
+@keyframes correr-letreiro { to { transform: translateX(-100%); } }
+@keyframes rolar-bola { from { transform: translateX(-60px) rotate(0); } to { transform: translateX(calc(100vw + 60px)) rotate(1440deg); } }
+@keyframes estourar {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  55% { opacity: 1; transform: translate(var(--x), var(--y)) rotate(var(--r)); }
+  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 170px)) rotate(calc(var(--r) * 1.6)); }
+}
+@keyframes pop-icone { 0% { transform: scale(.7); } 55% { transform: scale(1.22) rotate(-6deg); } 100% { transform: scale(1); } }
+@keyframes pular-torcedor { from { transform: translateY(16px); } to { transform: translateY(0); } }
+@keyframes tremular { from { transform: skewY(0) scaleX(1); } to { transform: skewY(-6deg) scaleX(.93); } }
+@keyframes gritar-letra { 0%, 100% { transform: translateY(0) scale(1); } 45% { transform: translateY(-16%) scale(1.14); } }
+@keyframes bola-curva {
+  0% { transform: translate(40px, 214px); }
+  50% { transform: translate(270px, 40px); }
+  72% { transform: translate(535px, 120px); }
+  84% { transform: translate(505px, 200px); }
+  92% { transform: translate(490px, 180px); }
+  100% { transform: translate(480px, 214px); }
+}
+@keyframes girar { to { transform: rotate(1080deg); } }
+@keyframes balancar-rede { 0%, 100% { transform: scaleX(1); } 30% { transform: scaleX(1.13); } 65% { transform: scaleX(.97); } }
+@keyframes acender-voto { from { transform: scale(0); } 70% { transform: scale(1.3); } }
+@keyframes trocar-tela { from { opacity: 0; transform: translateY(10px); } }
+@keyframes cair-bola {
+  0% { opacity: 0; transform: translateY(-180px) rotate(-200deg); }
+  55% { opacity: 1; transform: translateY(0) rotate(0); }
+  72% { transform: translateY(-34px) rotate(40deg); }
+  88% { transform: translateY(0) rotate(70deg); }
+  94% { transform: translateY(-8px) rotate(80deg); }
+}
+
+/* Controles */
+.botao { transition: background-color var(--fast) ease-out, border-color var(--fast) ease-out, transform var(--fast) ease-out; gap: var(--sm); }
+.botao:not(:disabled):hover { transform: translateY(-2px); }
+.botao:not(:disabled):active { transform: scale(.97); }
+.bola-botao { transition: transform 450ms var(--saida); }
+.botao:hover .bola-botao { transform: translateX(5px) rotate(360deg); }
+.vendas-topo nav a { position: relative; transition: color var(--fast) ease-out; }
+.vendas-topo nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 200ms var(--saida); }
+.vendas-topo nav a:hover::after { transform: scaleX(1); }
+.cartao-link { transition: border-color var(--fast) ease-out, transform var(--fast) ease-out; }
+.cartao-link:hover { transform: translateY(-2px); }
+.cartao-link:active { transform: scale(.985); }
+.opcao-time { transition: border-color var(--fast) ease-out, transform var(--fast) ease-out; }
+.opcao-time:active { transform: scale(.96); }
+.opcao-time.ativo .escudo { animation: pop-icone 400ms var(--saida); }
+.nav-inferior svg { transition: transform 200ms var(--carimbo); }
+.nav-inferior a.active svg { transform: scale(1.14); }
+
+/* Revelação ao rolar */
+.revelar { transition: opacity 600ms var(--saida) var(--atraso, 0ms), transform 600ms var(--saida) var(--atraso, 0ms); }
+.revelar:not(.visivel) { opacity: 0; transform: translateY(28px); }
+
+/* Abertura */
+.barra-progresso { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.hero-logo { animation: carimbar 650ms var(--saida) 100ms backwards; }
+.palavra { display: inline-block; overflow: hidden; vertical-align: top; padding-top: .05em; }
+.palavra > span { display: inline-block; animation: subir 620ms var(--saida) backwards; animation-delay: calc(var(--i) * 55ms + 300ms); }
+.destaque { animation: carimbar 520ms var(--carimbo) 1000ms backwards; }
+.pincelada { transform-origin: left; animation: pincelar 500ms var(--saida) 1400ms backwards; }
+.entra-depois { animation: aparecer 600ms var(--saida) 1250ms backwards; }
+.hero-acoes.entra-depois { animation-delay: 1400ms; }
+.meta.entra-depois { animation-delay: 1550ms; }
+.celular-palco { animation: entrar-celular 900ms var(--saida) 700ms backwards; }
+.celular-flutua { animation: flutuar 6s ease-in-out infinite; }
+.bola-rolando { position: absolute; left: 0; bottom: 6px; color: var(--text1); animation: rolar-bola 13s linear 2s infinite; z-index: 1; }
+
+/* Celular em jogo */
+.placar-numero { display: inline-block; animation: pular-numero 420ms var(--carimbo); }
+.celular-gol { position: relative; min-height: 118px; justify-content: center; animation: trocar-tela 320ms var(--saida); }
+.selo-carimbo { animation: selo 420ms var(--carimbo); }
+.votos-var { display: flex; gap: var(--sm); }
+.voto { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border-visible); }
+.voto.ligado { background: var(--success); border-color: var(--success); animation: acender-voto 300ms var(--carimbo); }
+
+/* Confete */
+.confete { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 3; }
+.confete span { position: absolute; width: 9px; height: 14px; opacity: 0; animation: estourar 1250ms cubic-bezier(.2, .7, .4, 1) forwards; }
+
+/* Letreiro */
+.letreiro { position: relative; z-index: 2; display: flex; align-items: center; background: var(--brand); color: #fff; margin: -24px -8px 56px; transform: rotate(-1deg); overflow: hidden; }
+.letreiro-faixa { display: flex; flex: 1; min-width: 0; overflow: hidden; }
+.letreiro-faixa > div { display: flex; flex: none; min-width: 100%; justify-content: space-around; animation: correr-letreiro 38s linear infinite; }
+.letreiro:hover .letreiro-faixa > div { animation-play-state: paused; }
+.letreiro-item { display: inline-flex; align-items: center; gap: var(--md); padding: 12px var(--md); font: 400 24px/1 var(--font-display); letter-spacing: .03em; white-space: nowrap; text-transform: uppercase; }
+.botao-pausa { flex: none; display: inline-flex; align-items: center; gap: var(--xs); min-height: 44px; margin-right: 20px; padding: 6px 12px; background: #0F0F0F; color: #fff; border: 0; border-radius: var(--r-control); font: 600 12px var(--font-body); cursor: pointer; transition: transform var(--fast) ease-out; }
+.botao-pausa:active { transform: scale(.96); }
+
+/* Passos com a bola */
+.passos-palco { position: relative; padding-top: 56px; }
+.trilho { position: absolute; left: 0; right: 0; top: 0; height: 40px; }
+.trilho::before { content: ""; position: absolute; left: 0; right: 0; top: 19px; border-top: 2px dashed var(--border-visible); }
+.trilho-linha { position: absolute; left: 0; right: 0; top: 18px; height: 4px; background: var(--brand); transform: scaleX(0); transform-origin: left; }
+.trilho-bola { position: absolute; left: 0; top: 0; width: 40px; height: 40px; color: var(--text1); background: var(--bg); border-radius: 50%; will-change: transform; }
+.passos { margin-top: var(--lg); }
+.passos li { position: relative; }
+.passos li > svg, .passos li h3, .passos li p { opacity: .45; transition: opacity 300ms ease-out; }
+.passos li.ativo > svg, .passos li.ativo h3, .passos li.ativo p { opacity: 1; }
+.passos li.ativo > svg { animation: pop-icone 480ms var(--saida); }
+
+/* Narração e torcida */
+.narracao-palco { position: relative; overflow: hidden; }
+.narracao { padding-bottom: var(--xl); }
+.gooool { display: inline-block; color: var(--accent); white-space: nowrap; }
+.gooool span { display: inline-block; transform-origin: bottom; }
+.em-cena .gooool span { animation: gritar-letra 900ms var(--saida) calc(var(--i) * 70ms + 200ms) 3; }
+.grito { display: inline-block; transition: opacity 420ms var(--saida), transform 420ms var(--carimbo); }
+.narracao-palco:not(.em-cena) .grito { opacity: 0; transform: scale(1.5) rotate(-4deg); }
+.narracao-resto { transition: opacity 600ms var(--saida) 300ms; }
+.narracao-palco:not(.em-cena) .narracao-resto { opacity: 0; }
+.torcida { display: block; width: 100%; height: 150px; }
+.torcedor { transform: translateY(16px); }
+.torcida.em-cena .torcedor { animation: pular-torcedor 520ms ease-in-out infinite alternate; }
+.bandeira { transform-box: fill-box; transform-origin: left center; }
+.torcida.em-cena .bandeira { animation: tremular 900ms ease-in-out infinite alternate; }
+
+/* Números e barras */
+.numeros { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--md); margin-bottom: var(--xl); }
+.numeros strong { display: block; font: 400 clamp(36px, 4.4vw, 60px)/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.numeros .revelar > span { color: var(--text3); font-size: 12px; font-weight: 600; }
+.barra-chance { height: 6px; margin-top: 6px; min-width: 90px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+.barra-chance span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 1100ms var(--saida); }
+.barra-chance.cheia span { transform: scaleX(var(--valor)); }
+.tabela-chance tbody tr { transition: background-color var(--fast) ease-out; }
+.tabela-chance tbody tr:hover { background: var(--surface1); }
+.visivel .linhas-entram > * { animation: aparecer 500ms var(--saida) backwards; animation-delay: calc(var(--i) * 80ms + 200ms); }
+
+/* Cena do chute */
+.chute { position: relative; width: min(640px, 100%); margin-bottom: var(--lg); }
+.chute svg { width: 100%; height: auto; overflow: visible; }
+.bola-chute { transform: translate(480px, 214px); }
+.em-cena .bola-chute { animation: bola-curva 1500ms cubic-bezier(.3, .1, .4, 1) both; }
+.em-cena .bola-giro { animation: girar 1500ms var(--saida) both; }
+.rede { transform-box: fill-box; transform-origin: left center; }
+.em-cena .rede { animation: balancar-rede 650ms var(--saida) 800ms; }
+.chute-gol { position: absolute; left: 32%; top: 12%; font: 400 clamp(48px, 10vw, 96px)/1 var(--font-display); color: var(--accent); transform: rotate(-6deg); opacity: 0; }
+.em-cena .chute-gol { opacity: 1; animation: selo-gol 520ms var(--carimbo) 820ms backwards; }
+.chute .confete { left: 74%; top: 55%; }
+.final { overflow: hidden; }
+.recebido { position: relative; animation: trocar-tela 400ms var(--saida); }
+
+/* App */
+.app-conteudo > * { animation: aparecer 380ms var(--saida) backwards; }
+.app-conteudo > *:nth-child(2) { animation-delay: 60ms; }
+.app-conteudo > *:nth-child(3) { animation-delay: 120ms; }
+.app-conteudo > *:nth-child(4) { animation-delay: 180ms; }
+.lista > * { animation: aparecer 380ms var(--saida) backwards; }
+.lista > *:nth-child(2) { animation-delay: 70ms; }
+.lista > *:nth-child(3) { animation-delay: 140ms; }
+.partida-destaque .placar > strong { animation: carimbar 500ms var(--carimbo) 150ms backwards; }
+.lugar { animation: carimbar 500ms var(--carimbo) 280ms backwards; }
+.tela-gol { position: relative; }
+.tela-gol > svg { animation: cair-bola 950ms ease-in backwards; }
+.tela-gol h1 { font-size: clamp(48px, 14vw, 64px); animation: carimbar 520ms var(--carimbo) 500ms backwards; }
+.tela-gol > p { animation: aparecer 400ms var(--saida) 800ms backwards; }
+.tela-gol .selo-resolvido { animation: selo 420ms var(--carimbo) 950ms backwards; }
+.tela-gol .gol-time { animation: aparecer 400ms var(--saida) 1150ms backwards; }
+.tela-gol .botao { animation: aparecer 400ms var(--saida) 1300ms backwards; }
+.tela-gol .confete { top: 34%; }
+
+@media (max-width: 900px) {
+  .botao-pausa { font-size: 0; gap: 0; margin-right: 16px; }
+  .passos-palco { padding-top: 0; padding-left: 56px; }
+  .trilho { left: 0; right: auto; top: 0; bottom: 0; width: 40px; height: auto; }
+  .trilho::before { left: 19px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px dashed var(--border-visible); }
+  .trilho-linha { left: 18px; right: auto; top: 0; bottom: 0; width: 4px; height: auto; transform: scaleY(0); transform-origin: top; }
+  .passos { margin-top: 0; }
+  .passos li, .passos li:first-child { padding-left: 0; border-left: 0; }
+  .numeros strong { font-size: 32px; }
+  .numeros { gap: var(--sm); }
+  .torcida { height: 110px; }
+}
+
+/* Movimento reduzido: tudo no estado final, sem repetição */
+[data-movimento="reduzido"] *, [data-movimento="reduzido"] *::before, [data-movimento="reduzido"] *::after { animation: none !important; transition: none !important; }
+[data-movimento="reduzido"] .revelar, [data-movimento="reduzido"] .narracao-palco .grito, [data-movimento="reduzido"] .narracao-palco .narracao-resto { opacity: 1 !important; transform: none !important; }
+[data-movimento="reduzido"] .bola-rolando, [data-movimento="reduzido"] .trilho-bola, [data-movimento="reduzido"] .barra-progresso { display: none; }
+[data-movimento="reduzido"] .trilho-linha { transform: none !important; }
+[data-movimento="reduzido"] .barra-chance span { transform: scaleX(var(--valor)); }
+[data-movimento="reduzido"] .torcedor { transform: none; }
+[data-movimento="reduzido"] .chute-gol { opacity: 1; }

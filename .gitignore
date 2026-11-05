@@ -1,0 +1,15 @@
+node_modules/
+dist/
+target/
+.vercel/
+.claude/
+.idea/
+*.iml
+.env
+.env.*
+!.env.example
+
+# Material de pesquisa e testes descartáveis
+research_notes/
+reports/
+sp156_test.py

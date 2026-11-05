@@ -1,0 +1,18 @@
+# Define o serviço da API no Render. As credenciais são informadas no painel do Render.
+services:
+  - type: web
+    name: varzea-api
+    runtime: docker
+    plan: free
+    rootDir: java-api
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/status
+    envVars:
+      - key: ORACLE_URL
+        value: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
+      - key: ORACLE_USER
+        sync: false
+      - key: ORACLE_PASSWORD
+        sync: false
+      - key: CORS_ORIGENS
+        value: https://varzea-flame.vercel.app,http://localhost:5173

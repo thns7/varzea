@@ -1,0 +1,11 @@
+Várzea - Global Solution 2026.2 - Data Science & Statistical Computing
+
+[Nome completo] - RM [00000]
+[Nome completo] - RM [00000]
+[Nome completo] - RM [00000]
+[Nome completo] - RM [00000]
+[Nome completo] - RM [00000]
+
+Fonte dos dados: Portal de Dados Abertos da Prefeitura de São Paulo, conjunto "Dados do SP156",
+arquivo arquivo-final-4-trim-25.csv (4º trimestre de 2025).
+https://dados.prefeitura.sp.gov.br/dataset/dados-do-sp156
