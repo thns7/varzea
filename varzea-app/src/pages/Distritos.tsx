@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { CartaoChamado } from '../components/CartaoChamado';
 import { useSessao } from '../lib/sessao';
 import { mensagemErro, SELECT_CHAMADO, supabase, type Chamado, type Distrito } from '../lib/supabase';
@@ -13,8 +13,9 @@ const STATUS = [
 
 export function Distritos() {
   const { perfil } = useSessao();
+  const [params] = useSearchParams();
   const [distritos, setDistritos] = useState<Distrito[]>([]);
-  const [distritoId, setDistritoId] = useState(perfil?.distrito_id ?? 0);
+  const [distritoId, setDistritoId] = useState(Number(params.get('distrito')) || perfil?.distrito_id || 0);
   const [status, setStatus] = useState('todos');
   const [chamados, setChamados] = useState<Chamado[]>([]);
   const [carregando, setCarregando] = useState(true);

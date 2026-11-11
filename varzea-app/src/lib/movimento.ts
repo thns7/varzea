@@ -24,16 +24,6 @@ function aplicar() {
 aplicar();
 consulta.addEventListener('change', aplicar);
 
-export function alternarMovimento() {
-  escolha = !reduzido;
-  try {
-    localStorage.setItem(CHAVE, escolha ? 'reduzido' : 'completo');
-  } catch {
-    // Sem armazenamento, a escolha vale até fechar a página.
-  }
-  aplicar();
-}
-
 export function useMovimentoReduzido() {
   return useSyncExternalStore(
     (avisar) => {
@@ -68,29 +58,4 @@ export function useNaTela<T extends Element>(umaVez = true, limiar = 0.2) {
   }, [umaVez, limiar]);
 
   return [ref, visivel] as const;
-}
-
-/** Roda `aoRolar` no máximo uma vez por quadro, sem bloquear a rolagem. */
-export function useRolagem(aoRolar: () => void) {
-  const callback = useRef(aoRolar);
-  callback.current = aoRolar;
-
-  useEffect(() => {
-    let quadro = 0;
-    const agendar = () => {
-      if (quadro) return;
-      quadro = requestAnimationFrame(() => {
-        quadro = 0;
-        callback.current();
-      });
-    };
-    agendar();
-    window.addEventListener('scroll', agendar, { passive: true });
-    window.addEventListener('resize', agendar);
-    return () => {
-      cancelAnimationFrame(quadro);
-      window.removeEventListener('scroll', agendar);
-      window.removeEventListener('resize', agendar);
-    };
-  }, []);
 }

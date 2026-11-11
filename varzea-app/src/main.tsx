@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { SessaoProvider } from './lib/sessao';
 import { LayoutApp } from './components/LayoutApp';
-import { Vendas } from './pages/Vendas';
+import { Mapa } from './pages/Mapa';
 import { Entrar } from './pages/Entrar';
 import { EscolherTime } from './pages/EscolherTime';
 import { Inicio } from './pages/Inicio';
@@ -14,13 +14,14 @@ import { DetalheChamado } from './pages/DetalheChamado';
 import { MeuPerfil } from './pages/MeuPerfil';
 import './styles.css';
 import './movimento.css';
+import './mapa.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <SessaoProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Vendas />} />
+          <Route path="/" element={<Mapa />} />
           <Route path="/entrar" element={<Entrar />} />
           <Route path="/escolher-time" element={<EscolherTime />} />
           <Route path="/app" element={<LayoutApp />}>
