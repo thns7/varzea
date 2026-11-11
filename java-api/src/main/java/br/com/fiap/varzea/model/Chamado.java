@@ -1,23 +1,70 @@
 package br.com.fiap.varzea.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 /** Problema da rua relatado por um morador. Tabela T_VZ_CHAMADO. */
+@Entity
+@Table(name = "T_VZ_CHAMADO")
 public class Chamado {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqChamado")
+    @SequenceGenerator(name = "seqChamado", sequenceName = "SQ_VZ_CHAMADO", allocationSize = 1)
+    @Column(name = "ID_CHAMADO")
     private Long id;
-    private Integer servicoId;
-    private String servicoNome;
-    private Integer gols;
-    private Integer distritoId;
-    private String distritoNome;
-    private Long moradorId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_SERVICO")
+    private Servico servico;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_DISTRITO")
+    private Distrito distrito;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_MORADOR")
+    private Morador morador;
+
+    @NotBlank(message = "Informe uma referência.")
+    @Size(min = 5, max = 120, message = "A referência deve ter de 5 a 120 caracteres.")
+    @Column(name = "DS_REFERENCIA", nullable = false, length = 120)
     private String referencia;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ST_CHAMADO", nullable = false, length = 15)
     private StatusChamado status;
+
+    @Column(name = "DT_ABERTURA", nullable = false, updatable = false)
     private LocalDate dataAbertura;
+
+    @Column(name = "DT_RESOLUCAO")
     private LocalDate dataResolucao;
-    private Long moradorResolveuId;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "ID_MORADOR_RESOLVEU")
+    private Morador moradorResolveu;
+
+    @Transient
     private Boolean virouGol;
+
+    @PrePersist
+    void aoCriar() {
+        this.dataAbertura = LocalDate.now();
+        this.status = StatusChamado.ABERTO;
+    }
+
+    public Long getMoradorId() {
+        return morador == null ? null : morador.getId();
+    }
+
+    public Long getMoradorResolveuId() {
+        return moradorResolveu == null ? null : moradorResolveu.getId();
+    }
 
     public Long getId() {
         return id;
@@ -27,52 +74,28 @@ public class Chamado {
         this.id = id;
     }
 
-    public Integer getServicoId() {
-        return servicoId;
+    public Servico getServico() {
+        return servico;
     }
 
-    public void setServicoId(Integer servicoId) {
-        this.servicoId = servicoId;
+    public void setServico(Servico servico) {
+        this.servico = servico;
     }
 
-    public String getServicoNome() {
-        return servicoNome;
+    public Distrito getDistrito() {
+        return distrito;
     }
 
-    public void setServicoNome(String servicoNome) {
-        this.servicoNome = servicoNome;
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
     }
 
-    public Integer getGols() {
-        return gols;
+    public Morador getMorador() {
+        return morador;
     }
 
-    public void setGols(Integer gols) {
-        this.gols = gols;
-    }
-
-    public Integer getDistritoId() {
-        return distritoId;
-    }
-
-    public void setDistritoId(Integer distritoId) {
-        this.distritoId = distritoId;
-    }
-
-    public String getDistritoNome() {
-        return distritoNome;
-    }
-
-    public void setDistritoNome(String distritoNome) {
-        this.distritoNome = distritoNome;
-    }
-
-    public Long getMoradorId() {
-        return moradorId;
-    }
-
-    public void setMoradorId(Long moradorId) {
-        this.moradorId = moradorId;
+    public void setMorador(Morador morador) {
+        this.morador = morador;
     }
 
     public String getReferencia() {
@@ -107,12 +130,12 @@ public class Chamado {
         this.dataResolucao = dataResolucao;
     }
 
-    public Long getMoradorResolveuId() {
-        return moradorResolveuId;
+    public Morador getMoradorResolveu() {
+        return moradorResolveu;
     }
 
-    public void setMoradorResolveuId(Long moradorResolveuId) {
-        this.moradorResolveuId = moradorResolveuId;
+    public void setMoradorResolveu(Morador moradorResolveu) {
+        this.moradorResolveu = moradorResolveu;
     }
 
     public Boolean getVirouGol() {
@@ -122,4 +145,5 @@ public class Chamado {
     public void setVirouGol(Boolean virouGol) {
         this.virouGol = virouGol;
     }
+
 }

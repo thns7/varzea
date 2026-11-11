@@ -1,16 +1,16 @@
 package br.com.fiap.varzea.controller;
 
 import br.com.fiap.varzea.bo.ChamadoBO;
-import br.com.fiap.varzea.dto.Requisicoes.AtualizaChamado;
-import br.com.fiap.varzea.dto.Requisicoes.MarcaResolvido;
 import br.com.fiap.varzea.dto.Requisicoes.NovoChamado;
 import br.com.fiap.varzea.dto.Requisicoes.Voto;
 import br.com.fiap.varzea.dto.Respostas.ResultadoVoto;
 import br.com.fiap.varzea.model.Chamado;
 import br.com.fiap.varzea.model.Confirmacao;
 import br.com.fiap.varzea.model.StatusChamado;
+import br.com.fiap.varzea.security.UsuarioLogado;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,56 +24,58 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+/** Chamados e VAR. O morador de cada ação vem do token, e não do corpo da requisição. */
 @RestController
 @RequestMapping("/api/chamados")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 public class ChamadoController {
 
-    private final ChamadoBO bo;
+    private final ChamadoBO chamadoBO;
 
-    public ChamadoController(ChamadoBO bo) {
-        this.bo = bo;
+    public ChamadoController(ChamadoBO chamadoBO) {
+        this.chamadoBO = chamadoBO;
     }
 
     @GetMapping
     public List<Chamado> listar(@RequestParam(required = false) Integer distritoId,
                                 @RequestParam(required = false) StatusChamado status) {
-        return bo.listar(distritoId, status);
+        return chamadoBO.listar(distritoId, status);
     }
 
     @GetMapping("/{id}")
-    public Chamado buscar(@PathVariable long id) {
-        return bo.buscar(id);
+    public Chamado buscar(@PathVariable Long id) {
+        return chamadoBO.buscar(id);
     }
 
     @PostMapping
-    public ResponseEntity<Chamado> criar(@Valid @RequestBody NovoChamado dados) {
-        Chamado criado = bo.criar(dados);
+    public ResponseEntity<Chamado> criar(@RequestBody @Valid NovoChamado dados) {
+        Chamado criado = chamadoBO.criar(dados, UsuarioLogado.id());
         return ResponseEntity.created(URI.create("/api/chamados/" + criado.getId())).body(criado);
     }
 
     @PutMapping("/{id}")
-    public Chamado atualizar(@PathVariable long id, @Valid @RequestBody AtualizaChamado dados) {
-        return bo.atualizar(id, dados);
+    public Chamado atualizar(@PathVariable Long id, @RequestBody @Valid NovoChamado dados) {
+        return chamadoBO.atualizar(id, dados, UsuarioLogado.id(), UsuarioLogado.isAdmin());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable long id) {
-        bo.excluir(id);
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        chamadoBO.excluir(id, UsuarioLogado.id(), UsuarioLogado.isAdmin());
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/resolver")
-    public Chamado marcarResolvido(@PathVariable long id, @Valid @RequestBody MarcaResolvido dados) {
-        return bo.marcarResolvido(id, dados.moradorId());
+    public Chamado marcarResolvido(@PathVariable Long id) {
+        return chamadoBO.marcarResolvido(id, UsuarioLogado.id());
     }
 
     @GetMapping("/{id}/confirmacoes")
-    public List<Confirmacao> listarConfirmacoes(@PathVariable long id) {
-        return bo.listarConfirmacoes(id);
+    public List<Confirmacao> listarConfirmacoes(@PathVariable Long id) {
+        return chamadoBO.listarConfirmacoes(id);
     }
 
     @PostMapping("/{id}/confirmacoes")
-    public ResultadoVoto votar(@PathVariable long id, @Valid @RequestBody Voto voto) {
-        return bo.votar(id, voto);
+    public ResultadoVoto votar(@PathVariable Long id, @RequestBody @Valid Voto voto) {
+        return chamadoBO.votar(id, voto, UsuarioLogado.id());
     }
 }

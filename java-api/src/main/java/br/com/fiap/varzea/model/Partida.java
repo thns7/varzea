@@ -1,16 +1,39 @@
 package br.com.fiap.varzea.model;
 
-/** Confronto de uma rodada, com o placar calculado. Tabela T_VZ_PARTIDA. */
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+/** Confronto entre dois distritos em uma rodada. O placar é calculado. Tabela T_VZ_PARTIDA. */
+@Entity
+@Table(name = "T_VZ_PARTIDA")
 public class Partida {
 
+    @Id
+    @Column(name = "ID_PARTIDA")
     private Long id;
-    private Integer rodadaId;
-    private Integer casaId;
-    private String casaNome;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_RODADA")
+    private Rodada rodada;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_DISTRITO_CASA")
+    private Distrito casa;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_DISTRITO_FORA")
+    private Distrito fora;
+
+    @Transient
     private Long golsCasa;
-    private Integer foraId;
-    private String foraNome;
+
+    @Transient
     private Long golsFora;
+
+    public Integer getRodadaId() {
+        return rodada == null ? null : rodada.getId();
+    }
 
     public Long getId() {
         return id;
@@ -20,28 +43,28 @@ public class Partida {
         this.id = id;
     }
 
-    public Integer getRodadaId() {
-        return rodadaId;
+    public Rodada getRodada() {
+        return rodada;
     }
 
-    public void setRodadaId(Integer rodadaId) {
-        this.rodadaId = rodadaId;
+    public void setRodada(Rodada rodada) {
+        this.rodada = rodada;
     }
 
-    public Integer getCasaId() {
-        return casaId;
+    public Distrito getCasa() {
+        return casa;
     }
 
-    public void setCasaId(Integer casaId) {
-        this.casaId = casaId;
+    public void setCasa(Distrito casa) {
+        this.casa = casa;
     }
 
-    public String getCasaNome() {
-        return casaNome;
+    public Distrito getFora() {
+        return fora;
     }
 
-    public void setCasaNome(String casaNome) {
-        this.casaNome = casaNome;
+    public void setFora(Distrito fora) {
+        this.fora = fora;
     }
 
     public Long getGolsCasa() {
@@ -52,22 +75,6 @@ public class Partida {
         this.golsCasa = golsCasa;
     }
 
-    public Integer getForaId() {
-        return foraId;
-    }
-
-    public void setForaId(Integer foraId) {
-        this.foraId = foraId;
-    }
-
-    public String getForaNome() {
-        return foraNome;
-    }
-
-    public void setForaNome(String foraNome) {
-        this.foraNome = foraNome;
-    }
-
     public Long getGolsFora() {
         return golsFora;
     }
@@ -75,4 +82,5 @@ public class Partida {
     public void setGolsFora(Long golsFora) {
         this.golsFora = golsFora;
     }
+
 }

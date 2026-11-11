@@ -34,16 +34,17 @@ INSERT INTO t_vz_servico (id_servico, id_categoria, nm_servico, nr_gols, nr_minu
 INSERT INTO t_vz_servico (id_servico, id_categoria, nm_servico, nr_gols, nr_minutos, vl_chance_30d) VALUES (8, 5, 'Praça e canteiro central - solicitar roçada', 4, 90, 0.699);
 INSERT INTO t_vz_servico (id_servico, id_categoria, nm_servico, nr_gols, nr_minutos, vl_chance_30d) VALUES (9, 6, 'Praças - Solicitar manutenção de equipamentos (mesas, bancos, brinquedos e equipamentos de ginástica)', 6, 120, 0.526);
 
--- Moradores (fictícios)
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (1, 1, 'Ana Fictícia', 'ana.ficticia@example.com', DATE '2026-09-20');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (2, 1, 'Bruno Exemplo', 'bruno.exemplo@example.com', DATE '2026-09-21');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (3, 1, 'Carla Teste', 'carla.teste@example.com', DATE '2026-09-22');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (4, 2, 'Davi Modelo', 'davi.modelo@example.com', DATE '2026-09-20');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (5, 2, 'Elisa Amostra', 'elisa.amostra@example.com', DATE '2026-09-23');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (6, 2, 'Fábio Simulado', 'fabio.simulado@example.com', DATE '2026-09-24');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (7, 3, 'Gabi Protótipo', 'gabi.prototipo@example.com', DATE '2026-09-25');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (8, 3, 'Hugo Fictício', 'hugo.ficticio@example.com', DATE '2026-09-25');
-INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, dt_cadastro) VALUES (9, 3, 'Iara Exemplo', 'iara.exemplo@example.com', DATE '2026-09-26');
+-- Moradores (fictícios). Senha de demonstração dos perfis USER: varzea123.
+-- A senha do ADMIN não fica no repositório: só o hash BCrypt.
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (1, 1, 'Ana Fictícia', 'ana.ficticia@example.com', '$2a$10$qZoNmyPo1T5YnJ3qYIGN3.UQ70hAsXKdrh2U4fNGM34sZ69ePQxpq', 'ADMIN', DATE '2026-09-20');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (2, 1, 'Bruno Exemplo', 'bruno.exemplo@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-21');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (3, 1, 'Carla Teste', 'carla.teste@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-22');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (4, 2, 'Davi Modelo', 'davi.modelo@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-20');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (5, 2, 'Elisa Amostra', 'elisa.amostra@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-23');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (6, 2, 'Fábio Simulado', 'fabio.simulado@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-24');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (7, 3, 'Gabi Protótipo', 'gabi.prototipo@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-25');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (8, 3, 'Hugo Fictício', 'hugo.ficticio@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-25');
+INSERT INTO t_vz_morador (id_morador, id_distrito, nm_morador, ds_email, ds_senha, ds_perfil, dt_cadastro) VALUES (9, 3, 'Iara Exemplo', 'iara.exemplo@example.com', '$2a$10$LnwMsqqTHRkKle1vftk57uK7hyMrbsxT4rCNBdLdDvxE..UIZ34pi', 'USER', DATE '2026-09-26');
 
 -- Rodadas
 INSERT INTO t_vz_rodada (id_rodada, nr_rodada, dt_inicio, dt_fim) VALUES (1, 1, DATE '2026-10-05', DATE '2026-10-11');

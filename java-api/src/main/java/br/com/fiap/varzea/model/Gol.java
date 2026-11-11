@@ -1,17 +1,51 @@
 package br.com.fiap.varzea.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 /** Gol validado de um chamado. Tabela T_VZ_GOL. */
+@Entity
+@Table(name = "T_VZ_GOL")
 public class Gol {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGol")
+    @SequenceGenerator(name = "seqGol", sequenceName = "SQ_VZ_GOL", allocationSize = 1)
+    @Column(name = "ID_GOL")
     private Long id;
-    private Long chamadoId;
-    private Integer rodadaId;
+
+    @JsonIgnore
+    @OneToOne(optional = false)
+    @JoinColumn(name = "ID_CHAMADO", unique = true)
+    private Chamado chamado;
+
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_RODADA")
+    private Rodada rodada;
+
+    @Column(name = "NR_GOLS", nullable = false)
     private Integer valor;
+
+    @Column(name = "DT_VALIDACAO", nullable = false)
     private LocalDate dataValidacao;
-    private String distritoNome;
-    private String servicoNome;
+
+    public Long getChamadoId() {
+        return chamado == null ? null : chamado.getId();
+    }
+
+    public Integer getRodadaId() {
+        return rodada == null ? null : rodada.getId();
+    }
+
+    public String getDistrito() {
+        return chamado == null ? null : chamado.getDistrito().getNome();
+    }
+
+    public String getServico() {
+        return chamado == null ? null : chamado.getServico().getNome();
+    }
 
     public Long getId() {
         return id;
@@ -21,20 +55,20 @@ public class Gol {
         this.id = id;
     }
 
-    public Long getChamadoId() {
-        return chamadoId;
+    public Chamado getChamado() {
+        return chamado;
     }
 
-    public void setChamadoId(Long chamadoId) {
-        this.chamadoId = chamadoId;
+    public void setChamado(Chamado chamado) {
+        this.chamado = chamado;
     }
 
-    public Integer getRodadaId() {
-        return rodadaId;
+    public Rodada getRodada() {
+        return rodada;
     }
 
-    public void setRodadaId(Integer rodadaId) {
-        this.rodadaId = rodadaId;
+    public void setRodada(Rodada rodada) {
+        this.rodada = rodada;
     }
 
     public Integer getValor() {
@@ -53,19 +87,4 @@ public class Gol {
         this.dataValidacao = dataValidacao;
     }
 
-    public String getDistritoNome() {
-        return distritoNome;
-    }
-
-    public void setDistritoNome(String distritoNome) {
-        this.distritoNome = distritoNome;
-    }
-
-    public String getServicoNome() {
-        return servicoNome;
-    }
-
-    public void setServicoNome(String servicoNome) {
-        this.servicoNome = servicoNome;
-    }
 }

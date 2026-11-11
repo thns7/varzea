@@ -14,5 +14,8 @@ services:
         sync: false
       - key: ORACLE_PASSWORD
         sync: false
+      # Chave aleatória gerada pelo Render para assinar os tokens JWT.
+      - key: JWT_SEGREDO
+        generateValue: true
       - key: CORS_ORIGENS
         value: https://varzea-flame.vercel.app,http://localhost:5173

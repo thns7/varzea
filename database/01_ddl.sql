@@ -4,16 +4,7 @@
 -- Global Solution 2026.2 - Database Design
 -- ============================================================
 
--- Para recriar o banco, retire os comentários abaixo e execute antes do restante do script:
--- DROP TABLE t_vz_gol CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_confirmacao CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_chamado CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_partida CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_rodada CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_morador CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_servico CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_categoria CASCADE CONSTRAINTS;
--- DROP TABLE t_vz_distrito CASCADE CONSTRAINTS;
+-- Para recriar o banco do zero, execute antes o arquivo 00_apagar.sql.
 
 -- ------------------------------------------------------------
 -- Tabelas
@@ -57,9 +48,12 @@ CREATE TABLE t_vz_morador (
     id_distrito  NUMBER(5)      NOT NULL,
     nm_morador   VARCHAR2(80)   NOT NULL,
     ds_email     VARCHAR2(120)  NOT NULL,
+    ds_senha     VARCHAR2(100)  NOT NULL,
+    ds_perfil    VARCHAR2(10)   NOT NULL,
     dt_cadastro  DATE           NOT NULL,
     CONSTRAINT pk_vz_morador PRIMARY KEY (id_morador),
-    CONSTRAINT un_vz_morador_email UNIQUE (ds_email)
+    CONSTRAINT un_vz_morador_email UNIQUE (ds_email),
+    CONSTRAINT ck_vz_morador_perfil CHECK (ds_perfil IN ('USER', 'ADMIN'))
 );
 
 -- Rodada: período de disputa do campeonato.

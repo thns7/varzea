@@ -18,15 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/** Consultas públicas do campeonato. */
 @RestController
 @RequestMapping("/api")
 public class CampeonatoController {
 
-    private final CampeonatoBO bo;
+    private final CampeonatoBO campeonatoBO;
     private final JdbcTemplate jdbc;
 
-    public CampeonatoController(CampeonatoBO bo, JdbcTemplate jdbc) {
-        this.bo = bo;
+    public CampeonatoController(CampeonatoBO campeonatoBO, JdbcTemplate jdbc) {
+        this.campeonatoBO = campeonatoBO;
         this.jdbc = jdbc;
     }
 
@@ -43,41 +44,41 @@ public class CampeonatoController {
 
     @GetMapping("/distritos")
     public List<Distrito> distritos() {
-        return bo.listarDistritos();
+        return campeonatoBO.listarDistritos();
     }
 
     @GetMapping("/categorias")
     public List<Categoria> categorias() {
-        return bo.listarCategorias();
+        return campeonatoBO.listarCategorias();
     }
 
     @GetMapping("/servicos")
     public List<Servico> servicos() {
-        return bo.listarServicos();
+        return campeonatoBO.listarServicos();
     }
 
     @GetMapping("/servicos/{id}")
-    public Servico servico(@PathVariable int id) {
-        return bo.buscarServico(id);
+    public Servico servico(@PathVariable Integer id) {
+        return campeonatoBO.buscarServico(id);
     }
 
     @GetMapping("/rodadas")
     public List<Rodada> rodadas() {
-        return bo.listarRodadas();
+        return campeonatoBO.listarRodadas();
     }
 
     @GetMapping("/rodadas/{id}/partidas")
-    public List<Partida> partidas(@PathVariable int id) {
-        return bo.listarPartidas(id);
+    public List<Partida> partidas(@PathVariable Integer id) {
+        return campeonatoBO.listarPartidas(id);
     }
 
     @GetMapping("/gols")
     public List<Gol> gols() {
-        return bo.listarGols();
+        return campeonatoBO.listarGols();
     }
 
     @GetMapping("/classificacao")
     public List<LinhaClassificacao> classificacao() {
-        return bo.classificacao();
+        return campeonatoBO.classificacao();
     }
 }

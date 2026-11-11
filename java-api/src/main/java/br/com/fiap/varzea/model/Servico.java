@@ -1,16 +1,31 @@
 package br.com.fiap.varzea.model;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 /** Tipo de problema da rua e quantos gols vale. Tabela T_VZ_SERVICO. */
+@Entity
+@Table(name = "T_VZ_SERVICO")
 public class Servico {
 
+    @Id
+    @Column(name = "ID_SERVICO")
     private Integer id;
-    private Integer categoriaId;
-    private String categoriaNome;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_CATEGORIA")
+    private Categoria categoria;
+
+    @Column(name = "NM_SERVICO", nullable = false, length = 150)
     private String nome;
+
+    @Column(name = "NR_GOLS", nullable = false)
     private Integer gols;
+
+    @Column(name = "NR_MINUTOS", nullable = false)
     private Integer minutos;
+
+    @Column(name = "VL_CHANCE_30D", nullable = false, precision = 4, scale = 3)
     private BigDecimal chance30d;
 
     public Integer getId() {
@@ -21,20 +36,12 @@ public class Servico {
         this.id = id;
     }
 
-    public Integer getCategoriaId() {
-        return categoriaId;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setCategoriaId(Integer categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
-    public String getCategoriaNome() {
-        return categoriaNome;
-    }
-
-    public void setCategoriaNome(String categoriaNome) {
-        this.categoriaNome = categoriaNome;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public String getNome() {
@@ -68,4 +75,5 @@ public class Servico {
     public void setChance30d(BigDecimal chance30d) {
         this.chance30d = chance30d;
     }
+
 }

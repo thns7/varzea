@@ -79,6 +79,7 @@ Estas regras dependem de mais de uma linha ou tabela, então a API deve garanti-
 
 | Arquivo | Conteúdo |
 |---|---|
+| `00_apagar.sql` | Apaga só as tabelas da Várzea, para recriar o banco |
 | `01_ddl.sql` | 9 tabelas, todas as constraints e as sequências da API |
 | `02_dml.sql` | Pelo menos 5 linhas por tabela |
 | `03_dql.sql` | As três consultas pedidas |

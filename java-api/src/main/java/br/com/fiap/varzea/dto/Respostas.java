@@ -9,6 +9,9 @@ public final class Respostas {
     private Respostas() {
     }
 
+    public record Token(String token, String tipo, Long moradorId, String perfil) {
+    }
+
     /** Desfecho de um voto: AGUARDANDO, GOL ou ANULADO. */
     public record ResultadoVoto(String desfecho, long confirmacoes, long contestacoes, Integer golsMarcados) {
     }
@@ -19,9 +22,10 @@ public final class Respostas {
     public record Status(String api, String banco) {
     }
 
-    public record Erro(LocalDateTime momento, int status, String mensagem, List<String> detalhes) {
-        public Erro(int status, String mensagem, List<String> detalhes) {
-            this(LocalDateTime.now(), status, mensagem, detalhes);
+    /** Formato de erro da API, no padrão visto em aula: momento, status e lista de mensagens. */
+    public record Erro(LocalDateTime timestamp, int status, String mensagem, List<String> errors) {
+        public Erro(int status, String mensagem, List<String> errors) {
+            this(LocalDateTime.now(), status, mensagem, errors);
         }
     }
 }
