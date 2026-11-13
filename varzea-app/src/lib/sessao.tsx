@@ -6,10 +6,11 @@ interface Contexto {
   sessao: Session | null;
   perfil: Perfil | null;
   carregando: boolean;
+  avaliador: boolean;
   atualizarPerfil: () => Promise<void>;
 }
 
-const SessaoContexto = createContext<Contexto>({ sessao: null, perfil: null, carregando: true, atualizarPerfil: async () => {} });
+const SessaoContexto = createContext<Contexto>({ sessao: null, perfil: null, carregando: true, avaliador: false, atualizarPerfil: async () => {} });
 
 export function SessaoProvider({ children }: { children: ReactNode }) {
   const [sessao, setSessao] = useState<Session | null>(null);
@@ -46,7 +47,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
 
   const atualizarPerfil = useCallback(() => buscarPerfil(sessao?.user.id), [buscarPerfil, sessao]);
 
-  return <SessaoContexto.Provider value={{ sessao, perfil, carregando, atualizarPerfil }}>{children}</SessaoContexto.Provider>;
+  return <SessaoContexto.Provider value={{ sessao, perfil, carregando, avaliador: Boolean(sessao?.user.is_anonymous), atualizarPerfil }}>{children}</SessaoContexto.Provider>;
 }
 
 export const useSessao = () => useContext(SessaoContexto);

@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { Escudo } from '../components/Escudo';
 import { useSessao } from '../lib/sessao';
 import { mensagemErro, supabase, type Distrito } from '../lib/supabase';
 
 export function EscolherTime() {
-  const { sessao, perfil, carregando, atualizarPerfil } = useSessao();
+  const { sessao, perfil, carregando, avaliador, atualizarPerfil } = useSessao();
   const navegar = useNavigate();
+  const [params] = useSearchParams();
   const [distritos, setDistritos] = useState<Distrito[]>([]);
-  const [nome, setNome] = useState('');
+  const [nome, setNome] = useState(avaliador ? 'Avaliador' : '');
   const [busca, setBusca] = useState('');
   const [escolhido, setEscolhido] = useState<Distrito | null>(null);
   const [erro, setErro] = useState('');
@@ -17,7 +18,11 @@ export function EscolherTime() {
   useEffect(() => {
     supabase.from('distritos').select('id, nome, zona').order('nome').then(({ data, error }) => {
       if (error) setErro(mensagemErro(error));
-      else setDistritos(data ?? []);
+      else {
+        setDistritos(data ?? []);
+        const vindo = (data ?? []).find((d) => d.id === Number(params.get('distrito')));
+        if (vindo) setEscolhido(vindo);
+      }
     });
   }, []);
 

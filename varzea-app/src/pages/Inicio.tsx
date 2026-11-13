@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { Escudo } from '../components/Escudo';
 import { CartaoChamado } from '../components/CartaoChamado';
 import { useSessao } from '../lib/sessao';
+import { GuiaAvaliacao } from '../components/Avaliacao';
 import { dataCurta, mensagemErro, plural, SELECT_CHAMADO, supabase, type Chamado, type LinhaTabela, type Partida } from '../lib/supabase';
 
 export function Inicio() {
-  const { perfil } = useSessao();
+  const { perfil, avaliador } = useSessao();
   const [partida, setPartida] = useState<Partida | null>(null);
   const [folga, setFolga] = useState(false);
   const [posicao, setPosicao] = useState<{ linha: LinhaTabela; lugar: number } | null>(null);
@@ -48,6 +49,8 @@ export function Inicio() {
         <img src="/logo-curto.png" alt="Várzea" />
         <p>Olá, {perfil?.nome}</p>
       </header>
+
+      {avaliador && <GuiaAvaliacao />}
 
       {partida && (
         <section className="cartao partida-destaque" aria-label="Partida desta rodada">

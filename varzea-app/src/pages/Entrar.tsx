@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { mensagemErro, supabase } from '../lib/supabase';
 import { useSessao } from '../lib/sessao';
+import { BotaoAvaliar } from '../components/Avaliacao';
 
 export function Entrar() {
   const [params] = useSearchParams();
@@ -45,6 +46,12 @@ export function Entrar() {
       <Link to="/"><img src="/logo.png" alt="Várzea, o Brasileirão dos bairros" className="logo-auth" /></Link>
       <h1>{modo === 'criar' ? 'Entre em campo' : 'De volta ao jogo'}</h1>
       <p className="apoio">{modo === 'criar' ? 'Crie sua conta e escolha o seu time. É de graça.' : 'Entre para torcer pelo seu distrito.'}</p>
+
+      <section className="atalho-avaliacao">
+        <BotaoAvaliar />
+        <p className="meta">Para professores e avaliadores: entra na hora, sem e-mail.</p>
+      </section>
+      <p className="divisor"><span>ou com e-mail</span></p>
 
       <form onSubmit={enviar} className="formulario">
         <label>

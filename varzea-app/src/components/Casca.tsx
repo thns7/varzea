@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Camera, House, MapPinArea, MapTrifold, User } from '@phosphor-icons/react';
 import { useSessao } from '../lib/sessao';
+import { BotaoAvaliar } from './Avaliacao';
 
 const ITENS = [
   { para: '/', rotulo: 'Mapa', Icone: MapTrifold, fim: true },
@@ -41,7 +42,7 @@ export function Casca({ children, cheia = false }: { children: ReactNode; cheia?
           <Link to="/"><img src="/logo-curto.png" alt="Várzea, mapa do campeonato" /></Link>
           <div>
             <Link to="/entrar" className="botao botao-secundario botao-pequeno">Entrar</Link>
-            <Link to="/entrar?modo=criar" className="botao botao-primario botao-pequeno">Criar conta</Link>
+            <BotaoAvaliar classe="botao botao-primario botao-pequeno" texto="Testar agora" />
           </div>
         </header>
       )}

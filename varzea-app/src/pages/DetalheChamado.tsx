@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CheckCircle, SoccerBall, XCircle } from '@phosphor-icons/react';
+import { CheckCircle, Flask, SoccerBall, XCircle } from '@phosphor-icons/react';
 import { Escudo } from '../components/Escudo';
 import { Confete, Contador } from '../components/Movimento';
 import { enviarFoto } from '../lib/foto';
@@ -11,7 +11,7 @@ interface Voto { id: number; morador_id: string; resultado: 'confirma' | 'contes
 
 export function DetalheChamado() {
   const { id } = useParams();
-  const { perfil } = useSessao();
+  const { perfil, avaliador } = useSessao();
   const [chamado, setChamado] = useState<Chamado | null>(null);
   const [votos, setVotos] = useState<Voto[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -102,6 +102,13 @@ export function DetalheChamado() {
     await carregar();
   });
 
+  const varDeTeste = () => executar(async () => {
+    const { data, error } = await supabase.rpc('var_demonstracao', { p_chamado: chamado.id });
+    if (error) throw error;
+    setDesfecho(data as 'gol');
+    await carregar();
+  });
+
   return (
     <>
       <Link to="/app/bairros" className="botao-texto voltar">Voltar para os chamados</Link>
@@ -150,6 +157,13 @@ export function DetalheChamado() {
           </div>
           {!meuDistrito && <p className="apoio">Só vizinhos de {chamado.distritos.nome} podem votar.</p>}
           {meuDistrito && envolvido && <p className="apoio">Quem relatou ou marcou como resolvido não vota neste chamado. Chame seus vizinhos.</p>}
+          {avaliador && perfil?.id === chamado.resolvido_por && (
+            <div className="var-teste">
+              <p className="rotulo"><Flask size={16} weight="fill" aria-hidden /> Modo avaliação</p>
+              <p className="apoio">Sem vizinhos por perto? Dois vizinhos de teste conferem o local e confirmam o conserto.</p>
+              <button className="botao botao-primario" disabled={enviando} onClick={varDeTeste}>Chamar o VAR de teste</button>
+            </div>
+          )}
           {meuDistrito && !envolvido && jaVotou && <p className="apoio">Você já votou neste chamado.</p>}
           {meuDistrito && !envolvido && !jaVotou && (
             <>

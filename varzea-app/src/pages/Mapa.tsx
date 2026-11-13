@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CaretDown, CaretUp, MagnifyingGlass, Pause, Play, SoccerBall } from '@phosphor-icons/react';
 import { Casca } from '../components/Casca';
 import { Escudo } from '../components/Escudo';
+import { BotaoAvaliar } from '../components/Avaliacao';
 import type { PlacarDistrito } from '../components/Cidade3D';
 import { carregarDistritosGeo, chaveDistrito, type DistritoGeo } from '../lib/geo';
 import { useMovimentoReduzido } from '../lib/movimento';
@@ -147,7 +148,7 @@ export function Mapa() {
                 {logado ? (
                   <Link to={`/app/bairros?distrito=${linha.distrito_id}`} className="botao botao-primario">Ver chamados</Link>
                 ) : (
-                  <Link to="/entrar?modo=criar" className="botao botao-primario">Entrar para jogar</Link>
+                  <BotaoAvaliar distritoId={linha.distrito_id} texto={`Testar torcendo por ${linha.nome}`} />
                 )}
                 <button type="button" className="botao-texto" onClick={() => setSelecionado(null)}>Voltar para a classificação</button>
               </article>
@@ -171,7 +172,7 @@ export function Mapa() {
                 {logado ? (
                   <Link to="/app/tabela" className="botao botao-secundario">Ver os 96 distritos</Link>
                 ) : (
-                  <Link to="/entrar?modo=criar" className="botao botao-primario">Escolher meu time</Link>
+                  <BotaoAvaliar />
                 )}
                 <p className="meta painel-nota">Dados de demonstração. Mapa: GeoSampa, Prefeitura de São Paulo. A Várzea não é um canal oficial; pedidos oficiais continuam no SP156.</p>
               </>

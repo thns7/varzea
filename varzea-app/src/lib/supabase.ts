@@ -61,6 +61,13 @@ export function mensagemErro(erro: unknown) {
   if (texto.includes('Email not confirmed')) return 'Confirme seu e-mail antes de entrar.';
   if (texto.includes('User already registered')) return 'Este e-mail já tem conta. Entre com sua senha.';
   if (texto.includes('Password should be')) return 'A senha precisa ter pelo menos 6 caracteres.';
+  if (texto.includes('Anonymous sign-ins are disabled')) return 'O modo avaliação ainda não foi ligado. Crie uma conta com e-mail.';
   if (texto.includes('rate limit')) return 'Muitas tentativas agora. Espere um pouco e tente de novo.';
   return texto;
+}
+
+/** Modo avaliação: entra com uma conta anônima e temporária, sem e-mail. */
+export async function entrarComoAvaliador() {
+  const { error } = await supabase.auth.signInAnonymously();
+  if (error) throw error;
 }
