@@ -4,7 +4,8 @@ import { Escudo } from '../components/Escudo';
 import { CartaoChamado } from '../components/CartaoChamado';
 import { useSessao } from '../lib/sessao';
 import { GuiaAvaliacao } from '../components/Avaliacao';
-import { dataCurta, mensagemErro, plural, SELECT_CHAMADO, supabase, type Chamado, type LinhaTabela, type Partida } from '../lib/supabase';
+import { Chapas, Placar } from '../components/Arquibancada';
+import { mensagemErro, plural, SELECT_CHAMADO, supabase, type Chamado, type LinhaTabela, type Partida } from '../lib/supabase';
 
 export function Inicio() {
   const { perfil, avaliador } = useSessao();
@@ -43,24 +44,35 @@ export function Inicio() {
   if (carregando) return <p className="carregando">Carregando</p>;
   if (erro) return <p className="alerta alerta-erro" role="alert">{erro}</p>;
 
+  const distrito = perfil?.distritos?.nome ?? '';
   return (
     <>
-      <header className="topo-app">
-        <img src="/logo-curto.png" alt="Várzea" />
-        <p>Olá, {perfil?.nome}</p>
+      <header className="inicio-cabecalho">
+        <img src="/logo-curto.png" alt="Várzea" className="inicio-logo" />
+        <div className="inicio-time">
+          <Escudo nome={distrito} tamanho={64} />
+          <div>
+            <p className="rotulo">Olá, {perfil?.nome} · você torce por</p>
+            <h1>{distrito}</h1>
+            {posicao && <p className="apoio">{posicao.linha.zona} · {plural(posicao.linha.jogos, 'jogo', 'jogos')} · {plural(posicao.linha.vitorias, 'vitória', 'vitórias')}</p>}
+          </div>
+        </div>
+        {posicao && (
+          <dl className="faixa-numeros">
+            <div><dt>Lugar</dt><dd><Chapas valor={posicao.lugar} /></dd></div>
+            <div><dt>Gols</dt><dd><Chapas valor={posicao.linha.gols_pro} /></dd></div>
+            <div><dt>Pontos</dt><dd><Chapas valor={posicao.linha.pontos} /></dd></div>
+          </dl>
+        )}
       </header>
 
-      {avaliador && <GuiaAvaliacao />}
-
       {partida && (
-        <section className="cartao partida-destaque" aria-label="Partida desta rodada">
-          <p className="rotulo">Rodada {partida.rodada_numero} · {dataCurta(partida.inicio)} a {dataCurta(partida.fim)}</p>
-          <div className="placar">
-            <div><Escudo nome={partida.casa} tamanho={56} /><span>{partida.casa}</span></div>
-            <strong>{partida.gols_casa} <small>x</small> {partida.gols_fora}</strong>
-            <div><Escudo nome={partida.fora} tamanho={56} /><span>{partida.fora}</span></div>
+        <section className="bloco-inicio">
+          <div className="titulo-com-acao">
+            <h2 className="titulo-secao">Jogo da rodada</h2>
+            <Link to="/app/tabela" className="botao-texto">Ver tabela</Link>
           </div>
-          <Link to="/app/tabela" className="botao botao-primario">Ver tabela</Link>
+          <Placar partida={partida} meuTime={perfil?.distrito_id} />
         </section>
       )}
       {folga && (
@@ -68,29 +80,22 @@ export function Inicio() {
           <p className="rotulo">Nesta rodada</p>
           <h2>Seu time folga</h2>
           <p className="apoio">Mesmo assim, os gols validados agora contam para o seu distrito.</p>
-          <Link to="/app/tabela" className="botao botao-primario">Ver tabela</Link>
+          <Link to="/app/tabela" className="botao botao-secundario">Ver tabela</Link>
         </section>
       )}
 
-      {posicao && (
-        <section className="cartao meu-time">
-          <Escudo nome={posicao.linha.nome} tamanho={44} />
-          <div>
-            <p className="rotulo">Seu time no campeonato</p>
-            <h2>{posicao.linha.nome}</h2>
-            <p className="apoio">{plural(posicao.linha.pontos, 'ponto', 'pontos')} · {plural(posicao.linha.gols_pro, 'gol', 'gols')}</p>
-          </div>
-          <strong className="lugar">{posicao.lugar}º</strong>
-        </section>
-      )}
+      {avaliador && <GuiaAvaliacao />}
 
-      <section>
-        <h2 className="titulo-secao">Aguardando o VAR</h2>
+      <section className="bloco-inicio">
+        <div className="titulo-com-acao">
+          <h2 className="titulo-secao">Aguardando o VAR</h2>
+          <Link to="/app/bairros" className="botao-texto">Ver todos</Link>
+        </div>
         {aguardando.length === 0 ? (
           <div className="vazio">
             <h3>Nada para conferir agora</h3>
             <p className="apoio">Viu um problema na rua? Abra o primeiro chamado da rodada.</p>
-            <Link to="/app/reportar" className="botao botao-secundario">Reportar problema</Link>
+            <Link to="/app/reportar" className="botao botao-primario">Reportar problema</Link>
           </div>
         ) : (
           <div className="lista">{aguardando.map((c) => <CartaoChamado key={c.id} chamado={c} />)}</div>

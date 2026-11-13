@@ -15,6 +15,7 @@ import { MeuPerfil } from './pages/MeuPerfil';
 import './styles.css';
 import './movimento.css';
 import './mapa.css';
+import './arquibancada.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

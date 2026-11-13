@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Escudo } from '../components/Escudo';
+import { Podio } from '../components/Arquibancada';
 import { useSessao } from '../lib/sessao';
 import { mensagemErro, supabase, type LinhaTabela } from '../lib/supabase';
 
@@ -33,6 +34,9 @@ export function Tabela() {
       </div>
       {carregando && <p className="carregando">Carregando</p>}
       {erro && <p className="alerta alerta-erro" role="alert">{erro}</p>}
+      {!carregando && !erro && zona === 'Todas' && linhas.length >= 3 && (
+        <Podio linhas={linhas.slice(0, 3).map((l, i) => ({ chave: String(l.distrito_id), nome: l.nome, gols: l.gols_pro, posicao: i + 1 }))} />
+      )}
       {!carregando && !erro && (
         <div className="tabela-rolagem">
           <table className="tabela">
@@ -42,12 +46,12 @@ export function Tabela() {
             <tbody>
               {visiveis.map((l) => (
                 <tr key={l.distrito_id} className={l.distrito_id === perfil?.distrito_id ? 'meu' : ''}>
-                  <td>{l.lugar}</td>
+                  <td><span className={`posicao ${l.lugar <= 3 ? 'posicao-topo' : ''}`}>{l.lugar}</span></td>
                   <td className="celula-time"><Escudo nome={l.nome} tamanho={24} /><span>{l.nome}</span></td>
                   <td className="forte">{l.pontos}</td>
                   <td>{l.jogos}</td>
                   <td>{l.vitorias}</td>
-                  <td>{l.gols_pro}</td>
+                  <td className="gols-tabela">{l.gols_pro}</td>
                 </tr>
               ))}
             </tbody>

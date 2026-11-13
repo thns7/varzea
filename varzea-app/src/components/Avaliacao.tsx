@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Flask } from '@phosphor-icons/react';
 import { entrarComoAvaliador, mensagemErro } from '../lib/supabase';
+import { PapelRasgado } from './Arquibancada';
 
 /** Entra no modo avaliação (sem e-mail) e leva para a escolha do time. */
 export function BotaoAvaliar({ distritoId, classe = 'botao botao-primario', texto = 'Testar agora, sem cadastro' }: { distritoId?: number; classe?: string; texto?: string }) {
@@ -34,15 +35,15 @@ export function BotaoAvaliar({ distritoId, classe = 'botao botao-primario', text
 /** Roteiro curto para quem está avaliando o MVP. */
 export function GuiaAvaliacao() {
   return (
-    <section className="cartao guia-avaliacao" aria-label="Como testar">
+    <PapelRasgado className="guia-avaliacao" rotulo="Como testar">
       <p className="rotulo"><Flask size={16} weight="fill" aria-hidden /> Modo avaliação</p>
       <h2>Faça um gol em 3 passos</h2>
       <ol>
-        <li><Link to="/app/reportar">Reporte um problema</Link> no seu distrito. A foto é opcional.</li>
-        <li>Abra o chamado e toque em <strong>Marcar como resolvido</strong>.</li>
-        <li>Use o <strong>VAR de teste</strong>: dois vizinhos simulados confirmam e o gol entra no placar e no mapa.</li>
+        <li><span>1</span><p><Link to="/app/reportar">Reporte um problema</Link> no seu distrito. A foto é opcional.</p></li>
+        <li><span>2</span><p>Abra o chamado e toque em <strong>Marcar como resolvido</strong>.</p></li>
+        <li><span>3</span><p>Chame o <strong>VAR de teste</strong>: dois vizinhos simulados confirmam, e o gol entra no placar e no mapa.</p></li>
       </ol>
-      <p className="meta">Sua conta é temporária e os gols ficam marcados como demonstração. No jogo real, o gol só vale com 2 vizinhos de verdade.</p>
-    </section>
+      <p className="meta">Conta temporária. Gols de teste ficam marcados como demonstração; no jogo real, só 2 vizinhos de verdade validam.</p>
+    </PapelRasgado>
   );
 }

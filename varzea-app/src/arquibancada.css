@@ -1,0 +1,149 @@
+/* Peças de arquibancada: placar de chapas, letreiro, papel rasgado, pincelada, pódio, ingresso e VAR */
+
+/* Chapas do placar */
+.chapas { display: inline-flex; gap: 3px; }
+.chapas span { display: grid; place-items: center; width: 30px; height: 40px; background: #0A0A0A; color: var(--text1); border: 1px solid var(--border-visible); border-radius: var(--r-element); font: 400 32px/1 var(--font-display); font-variant-numeric: tabular-nums; position: relative; }
+.chapas span::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #000; opacity: .7; }
+.chapas-destaque span { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+/* Placar de madeira */
+.placar-madeira { background: var(--surface1); border: 1px solid var(--border-visible); border-radius: var(--r-component); padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+.placar-madeira header { display: flex; justify-content: space-between; padding: 6px 8px 4px; font: 400 18px/1 var(--font-display); letter-spacing: .06em; color: var(--text2); }
+.placar-madeira header span:last-child { color: var(--accent); }
+.placar-linha { display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-control); }
+.placar-linha.meu { border-color: var(--text3); }
+.placar-nome { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 24px/1 var(--font-display); letter-spacing: .02em; }
+.placar-madeira footer { display: grid; grid-auto-flow: column; gap: 4px; padding: 6px 8px 4px; }
+.placar-madeira footer i { height: 6px; border-radius: 2px; background: var(--surface3); }
+.placar-madeira footer i.aceso { background: var(--text1); }
+
+/* Letreiro */
+.letreiro { display: flex; align-items: stretch; background: var(--bg); border-bottom: 1px solid var(--border-visible); height: 40px; overflow: hidden; }
+.letreiro-selo { flex: none; display: flex; align-items: center; padding: 0 12px; background: var(--brand); color: #fff; font: 400 17px/1 var(--font-display); letter-spacing: .06em; }
+.letreiro-trilho { flex: 1; min-width: 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+.letreiro ul { display: flex; width: max-content; height: 100%; animation: letreiro linear infinite; }
+.letreiro.parado ul { animation-play-state: paused; }
+[data-movimento="reduzido"] .letreiro-trilho { overflow-x: auto; scrollbar-width: none; }
+.letreiro li { display: flex; align-items: center; gap: 6px; padding: 0 20px; white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--text2); border-right: 1px solid var(--border); }
+.letreiro li strong { font: 400 17px/1 var(--font-display); letter-spacing: .05em; color: var(--accent); }
+.letreiro li b { color: var(--text1); font-weight: 700; }
+.letreiro li span { color: var(--text3); font-weight: 500; }
+.letreiro li svg { color: var(--text1); }
+.letreiro button { flex: none; width: 44px; display: grid; place-items: center; background: var(--surface1); color: var(--text1); border: 0; border-left: 1px solid var(--border-visible); cursor: pointer; }
+@keyframes letreiro { to { transform: translateX(-50%); } }
+
+/* Pincelada */
+.pincelada { position: relative; display: inline-block; padding: 0 .12em; color: #fff; isolation: isolate; }
+.pincelada svg { position: absolute; inset: 8% -6% -4% -6%; width: 112%; height: 96%; z-index: -1; transform: rotate(-2deg); }
+.pincelada svg path:first-child { fill: var(--brand); }
+.pincelada svg path:last-child { stroke: var(--brand); }
+
+/* Papel rasgado: bordas irregulares em cima e embaixo */
+.papel-rasgado {
+  background: #EBE6E6; color: var(--text1); padding: 36px var(--md) 40px; margin-inline: calc(var(--md) * -1);
+  clip-path: polygon(0 14px, 4% 6px, 9% 12px, 14% 3px, 19% 10px, 25% 4px, 31% 12px, 37% 5px, 42% 11px, 48% 2px, 54% 9px, 60% 4px, 66% 12px, 71% 6px, 77% 11px, 83% 3px, 88% 10px, 94% 5px, 100% 12px,
+    100% calc(100% - 10px), 95% calc(100% - 3px), 90% calc(100% - 12px), 84% calc(100% - 5px), 78% calc(100% - 11px), 72% calc(100% - 2px), 66% calc(100% - 9px), 60% calc(100% - 4px), 54% calc(100% - 12px), 48% calc(100% - 5px), 42% calc(100% - 10px), 36% calc(100% - 3px), 30% calc(100% - 11px), 24% calc(100% - 4px), 18% calc(100% - 12px), 12% calc(100% - 5px), 6% calc(100% - 10px), 0 calc(100% - 4px));
+}
+.papel-rasgado .rotulo { color: var(--text3); }
+@media (min-width: 900px) { .papel-rasgado { margin-inline: 0; padding-inline: var(--xl); } }
+
+/* Pódio */
+.podio { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 6px; }
+.podio li > * { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0; background: none; border: 0; color: var(--text1); font: inherit; text-align: center; cursor: pointer; }
+.podio-nome { font: 400 18px/1.05 var(--font-display); letter-spacing: .02em; max-width: 100%; overflow-wrap: anywhere; }
+.podio-gols { color: var(--accent); font-size: 12px; font-weight: 700; }
+.podio-degrau { width: 100%; display: grid; place-items: center; margin-top: 4px; background: var(--surface2); border: 1px solid var(--border-visible); border-bottom: 0; border-radius: var(--r-element) var(--r-element) 0 0; font: 400 28px/1 var(--font-display); color: var(--text2); }
+.podio-1 .podio-degrau { height: 64px; background: var(--text1); color: var(--bg); font-size: 36px; }
+.podio-2 .podio-degrau { height: 44px; }
+.podio-3 .podio-degrau { height: 32px; }
+.podio button:hover .podio-nome { text-decoration: underline; }
+
+/* Ingresso (cartão de chamado) */
+.ingresso { display: grid; grid-template-columns: minmax(0, 1fr) 84px; padding: 0; overflow: visible; position: relative; }
+.ingresso-corpo { display: flex; flex-direction: column; gap: 6px; padding: var(--md); min-width: 0; }
+.ingresso-corpo h3 { font-size: 24px; }
+.ingresso-canhoto { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-left: 2px dashed var(--border-visible); color: var(--accent); }
+.ingresso-canhoto strong { font: 400 44px/1 var(--font-display); }
+.ingresso-canhoto span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.ingresso-canhoto::before, .ingresso-canhoto::after { content: ""; position: absolute; left: -9px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); }
+.ingresso-canhoto::before { top: -9px; }
+.ingresso-canhoto::after { bottom: -9px; }
+.ingresso .selo-resolvido { position: absolute; right: 8px; top: 10px; font-size: 14px; padding: 2px 8px; }
+.ingresso-validado .ingresso-canhoto { color: var(--text1); }
+
+/* Linha do tempo do chamado */
+.linha-tempo { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: etapa; }
+.linha-tempo li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text4); text-align: center; }
+.linha-tempo li::before { content: ""; position: absolute; top: 15px; right: 50%; width: 100%; height: 2px; background: var(--border-visible); z-index: 0; }
+.linha-tempo li:first-child::before { display: none; }
+.linha-tempo li.feito::before, .linha-tempo li.agora::before { background: var(--text1); }
+.linha-tempo-marca { position: relative; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border-visible); font: 400 18px/1 var(--font-display); color: var(--text3); }
+.linha-tempo li.feito { color: var(--text2); }
+.linha-tempo li.feito .linha-tempo-marca { background: var(--text1); border-color: var(--text1); color: var(--bg); }
+.linha-tempo li.agora { color: var(--text1); }
+.linha-tempo li.agora .linha-tempo-marca { border-color: var(--text1); color: var(--text1); }
+.linha-tempo li.gol .linha-tempo-marca { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+/* Monitor do VAR */
+.monitor-var { background: #0A0A0A; border: 1px solid var(--border-visible); border-radius: var(--r-component); padding: 6px; }
+.monitor-var header { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px 10px; font: 400 18px/1 var(--font-display); letter-spacing: .06em; color: var(--text2); }
+.monitor-var header span:first-child { display: flex; align-items: center; gap: 8px; color: var(--text1); }
+.monitor-var header i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.monitor-vagas { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.vaga { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--md) var(--sm); border: 1px dashed var(--border-visible); border-radius: var(--r-control); text-align: center; }
+.vaga strong { font: 400 20px/1 var(--font-display); letter-spacing: .03em; }
+.vaga small { color: var(--text3); font-size: 11px; font-weight: 600; }
+.vaga-icone { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border-visible); color: var(--text4); }
+.vaga.confirma { border-style: solid; border-color: var(--success); background: var(--success-bg); }
+.vaga.confirma .vaga-icone { background: var(--success); border-color: var(--success); color: #fff; }
+.vaga.confirma small { color: var(--text2); }
+.monitor-contestacoes { display: flex; align-items: center; gap: 6px; padding: 10px 8px 4px; color: var(--text3); font-size: 12px; font-weight: 600; }
+
+/* Faixa de números (estatísticas em chapas) */
+.faixa-numeros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.faixa-numeros div { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; background: var(--surface1); border: 1px solid var(--border); border-radius: var(--r-control); }
+.faixa-numeros dt { order: 2; color: var(--text3); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.faixa-numeros dd { margin: 0; }
+
+/* Entrada das peças */
+.placar-madeira .chapas span { animation: virar-chapa 420ms var(--carimbo) backwards; }
+.placar-madeira .chapas span:nth-child(2) { animation-delay: 80ms; }
+.podio li { animation: aparecer 420ms var(--saida) backwards; }
+.podio-1 { animation-delay: 120ms !important; }
+.podio-3 { animation-delay: 220ms !important; }
+@keyframes virar-chapa { from { transform: perspective(200px) rotateX(-90deg); opacity: 0; } }
+
+/* Início */
+.inicio-cabecalho { display: flex; flex-direction: column; gap: var(--md); }
+.inicio-logo { width: 88px; }
+.inicio-time { display: flex; align-items: center; gap: var(--md); }
+.inicio-time h1 { font-size: clamp(40px, 11vw, 56px); line-height: .95; }
+.inicio-time > div { min-width: 0; }
+.titulo-com-acao { display: flex; justify-content: space-between; align-items: baseline; gap: var(--md); }
+.titulo-com-acao .titulo-secao { margin-bottom: var(--sm); }
+.titulo-com-acao .botao-texto { min-height: 0; }
+.bloco-inicio { display: flex; flex-direction: column; }
+@media (min-width: 900px) { .inicio-logo { display: none; } }
+
+/* Guia do avaliador no papel */
+.guia-avaliacao { display: flex; flex-direction: column; gap: var(--sm); }
+.guia-avaliacao h2 { font-size: 32px; color: var(--text1); }
+.guia-avaliacao .rotulo { display: flex; align-items: center; gap: var(--xs); color: var(--accent); }
+.guia-avaliacao ol { display: flex; flex-direction: column; gap: 10px; margin: var(--xs) 0; padding: 0; list-style: none; }
+.guia-avaliacao li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--text2); line-height: 1.45; }
+.guia-avaliacao li span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; background: var(--text1); color: #EBE6E6; border-radius: var(--r-element); font: 400 20px/1 var(--font-display); }
+.guia-avaliacao li strong { color: var(--text1); }
+.guia-avaliacao a { color: var(--accent); font-weight: 700; }
+
+/* Detalhe do chamado */
+.chamado-cabecalho { display: flex; gap: var(--md); align-items: flex-start; justify-content: space-between; }
+.chamado-cabecalho > div:first-child { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.chamado-valor { flex: none; display: flex; flex-direction: column; align-items: center; padding: 8px 14px; border: 2px dashed var(--border-visible); border-radius: var(--r-component); color: var(--accent); }
+.chamado-valor strong { font: 400 52px/1 var(--font-display); }
+.chamado-valor span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); }
+
+/* Tabela */
+.posicao { display: inline-grid; place-items: center; min-width: 26px; height: 26px; border-radius: var(--r-element); color: var(--text3); font-weight: 700; }
+.posicao-topo { background: var(--text1); color: var(--bg); font: 400 18px/1 var(--font-display); }
+.gols-tabela { color: var(--accent); font: 400 20px/1 var(--font-display); }
+.podio + .tabela-rolagem { margin-top: var(--md); }

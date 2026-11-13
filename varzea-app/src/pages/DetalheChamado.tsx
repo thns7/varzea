@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CheckCircle, Flask, SoccerBall, XCircle } from '@phosphor-icons/react';
+import { Flask, SoccerBall } from '@phosphor-icons/react';
 import { Escudo } from '../components/Escudo';
 import { Confete, Contador } from '../components/Movimento';
+import { LinhaDoTempo, MonitorVar } from '../components/Arquibancada';
 import { enviarFoto } from '../lib/foto';
 import { useSessao } from '../lib/sessao';
 import { dataCurta, mensagemErro, ROTULO_STATUS, SELECT_CHAMADO, supabase, urlFoto, type Chamado } from '../lib/supabase';
@@ -116,18 +117,24 @@ export function DetalheChamado() {
         <span className={`tag tag-${chamado.status}`}>{ROTULO_STATUS[chamado.status]}</span>
         {chamado.demo && <span className="tag">Demonstração</span>}
       </div>
-      <h1 className="titulo-pagina">{chamado.servicos.nome}</h1>
-      <p>{chamado.referencia}</p>
-      <p className="meta">
-        {chamado.distritos.nome} · aberto em {dataCurta(chamado.criado_em)}
-        {chamado.resolvido_em && ` · resolvido em ${dataCurta(chamado.resolvido_em)}`}
-      </p>
+      <header className="chamado-cabecalho">
+        <div>
+          <h1 className="titulo-pagina">{chamado.servicos.nome}</h1>
+          <p>{chamado.referencia}</p>
+          <p className="meta">
+            {chamado.distritos.nome} · aberto em {dataCurta(chamado.criado_em)}
+            {chamado.resolvido_em && ` · resolvido em ${dataCurta(chamado.resolvido_em)}`}
+          </p>
+        </div>
+        <div className="chamado-valor" aria-label={`Vale ${chamado.servicos.gols} ${chamado.servicos.gols === 1 ? 'gol' : 'gols'}`}>
+          <span aria-hidden>Vale</span>
+          <strong aria-hidden>{chamado.servicos.gols}</strong>
+          <span aria-hidden>{chamado.servicos.gols === 1 ? 'gol' : 'gols'}</span>
+        </div>
+      </header>
+      {chamado.status !== 'cancelado' && <LinhaDoTempo status={chamado.status} />}
       {chamado.foto_path && <img className="foto-chamado" src={urlFoto(chamado.foto_path)} alt={`Foto enviada para ${chamado.servicos.nome}`} />}
-
-      <section className="cartao valor-chamado">
-        <strong>{chamado.servicos.gols}</strong>
-        <p>{chamado.servicos.gols === 1 ? 'gol' : 'gols'} se o VAR da torcida confirmar</p>
-      </section>
+      {chamado.status === 'validado' && <MonitorVar confirmacoes={2} contestacoes={0} validado />}
 
       {desfecho === 'anulado' && <p className="alerta alerta-erro" role="status">Gol anulado: 2 vizinhos contestaram, e o chamado voltou a ficar aberto.</p>}
       {desfecho === 'aguardando' && <p className="alerta alerta-ok" role="status">Voto registrado. Falta mais vizinho confirmar.</p>}
@@ -151,10 +158,7 @@ export function DetalheChamado() {
       {chamado.status === 'resolvido' && (
         <section className="bloco-acao">
           <h2 className="titulo-secao">VAR da torcida</h2>
-          <div className="contagem-var">
-            <span><CheckCircle size={20} weight="fill" aria-hidden /> {confirmacoes} de 2 confirmações</span>
-            <span><XCircle size={20} weight="fill" aria-hidden /> {contestacoes} de 2 contestações</span>
-          </div>
+          <MonitorVar confirmacoes={confirmacoes} contestacoes={contestacoes} />
           {!meuDistrito && <p className="apoio">Só vizinhos de {chamado.distritos.nome} podem votar.</p>}
           {meuDistrito && envolvido && <p className="apoio">Quem relatou ou marcou como resolvido não vota neste chamado. Chame seus vizinhos.</p>}
           {avaliador && perfil?.id === chamado.resolvido_por && (

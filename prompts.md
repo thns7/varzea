@@ -16,3 +16,4 @@ Regra da GS: registrar os prompts usados com IA e saber explicar cada linha. Acr
 | 10/11/2026 | Claude Code | Refazer a API Java no padrão das aulas (JPA, Bean Validation, login JWT) | `java-api/`, `database/` |
 | 11/11/2026 | Claude Code | Tirar a página de vendas, deixar o MVP para celular e PC e criar o mapa 3D da cidade com os 96 distritos | `varzea-app/` |
 | 13/11/2026 | Claude Code | Criar o modo avaliação para professores testarem sem cadastro, com VAR de teste | `varzea-app/` |
+| 13/11/2026 | Claude Code | Aprimorar o design do MVP com a linguagem da Várzea (placar de chapas, letreiro, papel rasgado, pódio, ingresso, VAR) | `varzea-app/` |

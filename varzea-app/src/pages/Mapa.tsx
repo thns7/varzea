@@ -1,14 +1,15 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CaretDown, CaretUp, MagnifyingGlass, Pause, Play, SoccerBall } from '@phosphor-icons/react';
+import { CaretDown, CaretUp, MagnifyingGlass, Pause, Play } from '@phosphor-icons/react';
 import { Casca } from '../components/Casca';
 import { Escudo } from '../components/Escudo';
 import { BotaoAvaliar } from '../components/Avaliacao';
+import { andamentoRodada, Chapas, Letreiro, Pincelada, Placar, Podio } from '../components/Arquibancada';
 import type { PlacarDistrito } from '../components/Cidade3D';
 import { carregarDistritosGeo, chaveDistrito, type DistritoGeo } from '../lib/geo';
 import { useMovimentoReduzido } from '../lib/movimento';
 import { useSessao } from '../lib/sessao';
-import { mensagemErro, plural, supabase, type LinhaTabela, type Partida } from '../lib/supabase';
+import { mensagemErro, plural, supabase, type GolRecente, type LinhaTabela, type Partida } from '../lib/supabase';
 
 // O Three.js só é baixado quando o mapa aparece, para a primeira tela abrir rápido.
 const Cidade3D = lazy(() => import('../components/Cidade3D').then((m) => ({ default: m.Cidade3D })));
@@ -24,6 +25,7 @@ export function Mapa() {
   const [geo, setGeo] = useState<DistritoGeo[]>([]);
   const [tabela, setTabela] = useState<Linha[]>([]);
   const [partidas, setPartidas] = useState<Partida[]>([]);
+  const [gols, setGols] = useState<GolRecente[]>([]);
   const [selecionado, setSelecionado] = useState<string | null>(null);
   const [busca, setBusca] = useState('');
   const [aberto, setAberto] = useState(false);
@@ -39,6 +41,7 @@ export function Mapa() {
         setPartidas((placar.data ?? []) as Partida[]);
       })
       .catch((e) => setErro(mensagemErro(e)));
+    supabase.rpc('ultimos_gols', { p_limite: 12 }).then(({ data }) => setGols((data ?? []) as GolRecente[]));
   }, []);
 
   const placar = useMemo(
@@ -63,6 +66,9 @@ export function Mapa() {
   }
 
   const logado = Boolean(sessao && perfil);
+  const totalGols = tabela.reduce((soma, l) => soma + l.gols_pro, 0);
+  const rodada = partidas[0];
+  const andamento = rodada ? andamentoRodada(rodada.inicio, rodada.fim) : null;
 
   return (
     <Casca cheia>
@@ -84,6 +90,21 @@ export function Mapa() {
           )}
           {erro && <p className="alerta alerta-erro mapa-aviso" role="alert">{erro}</p>}
 
+          <Letreiro gols={gols} />
+
+          <header className={`cartaz ${linha ? 'cartaz-recolhido' : ''}`}>
+            <p className="rotulo">São Paulo{rodada ? ` · Rodada ${rodada.rodada_numero} de 14` : ''}</p>
+            <h1>A cidade<br />em <Pincelada>campo</Pincelada></h1>
+            <p className="cartaz-texto">Cada distrito é um time. Conserto confirmado por 2 vizinhos vira gol, e o distrito sobe no mapa.</p>
+            {tabela.length > 0 && (
+              <dl className="cartaz-numeros">
+                <div><dt>Times</dt><dd><Chapas valor={tabela.length} /></dd></div>
+                <div><dt>Gols</dt><dd><Chapas valor={totalGols} /></dd></div>
+                {andamento && <div><dt>{andamento.faltam === 1 ? 'Dia p/ fechar' : 'Dias p/ fechar'}</dt><dd><Chapas valor={andamento.faltam} /></dd></div>}
+              </dl>
+            )}
+          </header>
+
           <div className="mapa-legenda" aria-hidden>
             <span>Menos gols</span>
             <i />
@@ -104,13 +125,6 @@ export function Mapa() {
           </button>
 
           <div className="painel-conteudo">
-            {!linha && (
-              <header className="painel-intro">
-                <h1>O campeonato dos bairros</h1>
-                <p className="apoio">Cada distrito é um time. Conserto confirmado por vizinhos vira gol, e quanto mais gols, mais alto o distrito fica no mapa.</p>
-              </header>
-            )}
-
             <label className="busca-distrito">
               <MagnifyingGlass size={18} aria-hidden />
               <input type="search" value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Procurar distrito" aria-label="Procurar distrito" />
@@ -132,19 +146,12 @@ export function Mapa() {
                     <h2>{linha.nome}</h2>
                   </div>
                 </div>
-                <dl className="distrito-numeros">
-                  <div><dt>Gols</dt><dd>{linha.gols_pro}</dd></div>
-                  <div><dt>Pontos</dt><dd>{linha.pontos}</dd></div>
-                  <div><dt>Vitórias</dt><dd>{linha.vitorias}</dd></div>
+                <dl className="faixa-numeros">
+                  <div><dt>Lugar</dt><dd><Chapas valor={linha.posicao} /></dd></div>
+                  <div><dt>Gols</dt><dd><Chapas valor={linha.gols_pro} /></dd></div>
+                  <div><dt>Pontos</dt><dd><Chapas valor={linha.pontos} /></dd></div>
                 </dl>
-                {partida ? (
-                  <p className="distrito-partida">
-                    <SoccerBall size={16} weight="fill" aria-hidden />
-                    Rodada {partida.rodada_numero}: {partida.casa} {partida.gols_casa} x {partida.gols_fora} {partida.fora}
-                  </p>
-                ) : (
-                  <p className="apoio">Sem partida nesta rodada.</p>
-                )}
+                {partida ? <Placar partida={partida} meuTime={linha.distrito_id} /> : <p className="apoio">Este time folga nesta rodada.</p>}
                 {logado ? (
                   <Link to={`/app/bairros?distrito=${linha.distrito_id}`} className="botao botao-primario">Ver chamados</Link>
                 ) : (
@@ -157,8 +164,9 @@ export function Mapa() {
             {!linha && (
               <>
                 <h2 className="titulo-secao">Classificação</h2>
-                <ol className="ranking">
-                  {tabela.slice(0, 10).map((l) => (
+                <Podio linhas={tabela.slice(0, 3).map((l) => ({ chave: l.chave, nome: l.nome, gols: l.gols_pro, posicao: l.posicao }))} onEscolher={selecionar} />
+                <ol className="ranking" start={4}>
+                  {tabela.slice(3, 10).map((l) => (
                     <li key={l.chave}>
                       <button type="button" onClick={() => selecionar(l.chave)} className={l.chave === meuTime ? 'meu' : ''}>
                         <span className="ranking-pos">{l.posicao}</span>
