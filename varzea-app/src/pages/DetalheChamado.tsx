@@ -157,7 +157,6 @@ export function DetalheChamado() {
 
       {chamado.status === 'resolvido' && (
         <section className="bloco-acao">
-          <h2 className="titulo-secao">VAR da torcida</h2>
           <MonitorVar confirmacoes={confirmacoes} contestacoes={contestacoes} />
           {!meuDistrito && <p className="apoio">Só vizinhos de {chamado.distritos.nome} podem votar.</p>}
           {meuDistrito && envolvido && <p className="apoio">Quem relatou ou marcou como resolvido não vota neste chamado. Chame seus vizinhos.</p>}

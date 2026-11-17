@@ -4,11 +4,10 @@
 
 **Integrantes:**
 
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
+- Gabriel Santos - RM 562419
+- Gustavo Rocha - RM 564152
+- Thiago Nascimento - RM 561967
+- Vinicius Herreira - RM 565662
 
 ---
 
@@ -54,37 +53,149 @@ A API segue as camadas vistas em aula, com Spring Data JPA, Bean Validation e Sp
 ```mermaid
 classDiagram
     direction LR
-    class AuthController { +login(Login) Token }
-    class MoradorController { +listar() +eu() +buscar(id) +criar(NovoMorador) +atualizar(id, AtualizaMorador) +excluir(id) }
-    class ChamadoController { +listar() +buscar(id) +criar(NovoChamado) +atualizar(id) +excluir(id) +marcarResolvido(id) +listarConfirmacoes(id) +votar(id, Voto) }
-    class CampeonatoController { +status() +distritos() +categorias() +servicos() +rodadas() +partidas(id) +gols() +classificacao() }
-    class MoradorBO { +autenticar(email, senha) +criar() +atualizar() +excluir() +buscar() +listar() }
-    class ChamadoBO { +criar() +atualizar() +excluir() +marcarResolvido() +votar() ResultadoVoto }
-    class CampeonatoBO { +listarPartidas(rodadaId) +classificacao() }
-    class JwtUtil { +gerarToken(Morador) String +validarToken(String) Claims }
+    class AuthController {
+        +login(Login) Token
+    }
+    class MoradorController {
+        +listar()
+        +eu()
+        +buscar(id)
+        +criar(NovoMorador)
+        +atualizar(id, AtualizaMorador)
+        +excluir(id)
+    }
+    class ChamadoController {
+        +listar()
+        +buscar(id)
+        +criar(NovoChamado)
+        +atualizar(id)
+        +excluir(id)
+        +marcarResolvido(id)
+        +listarConfirmacoes(id)
+        +votar(id, Voto)
+    }
+    class CampeonatoController {
+        +status()
+        +distritos()
+        +categorias()
+        +servicos()
+        +rodadas()
+        +partidas(id)
+        +gols()
+        +classificacao()
+    }
+    class MoradorBO {
+        +autenticar(email, senha)
+        +criar()
+        +atualizar()
+        +excluir()
+        +buscar()
+        +listar()
+    }
+    class ChamadoBO {
+        +criar()
+        +atualizar()
+        +excluir()
+        +marcarResolvido()
+        +votar() ResultadoVoto
+    }
+    class CampeonatoBO {
+        +listarPartidas(rodadaId)
+        +classificacao()
+    }
+    class JwtUtil {
+        +gerarToken(Morador) String
+        +validarToken(String) Claims
+    }
     class JwtAuthenticationFilter
-    class SecurityConfig { +securityFilterChain() +passwordEncoder() }
+    class SecurityConfig {
+        +securityFilterChain()
+        +passwordEncoder()
+    }
     class ManipuladorExcecoes
 
-    class MoradorDao { <<interface>> }
-    class ChamadoDao { <<interface>> }
-    class ConfirmacaoDao { <<interface>> }
-    class GolDao { <<interface>> }
-    class RodadaDao { <<interface>> }
-    class PartidaDao { <<interface>> }
-    class DistritoDao { <<interface>> }
-    class ServicoDao { <<interface>> }
-    class CategoriaDao { <<interface>> }
+    class MoradorDao {
+        <<interface>>
+    }
+    class ChamadoDao {
+        <<interface>>
+    }
+    class ConfirmacaoDao {
+        <<interface>>
+    }
+    class GolDao {
+        <<interface>>
+    }
+    class RodadaDao {
+        <<interface>>
+    }
+    class PartidaDao {
+        <<interface>>
+    }
+    class DistritoDao {
+        <<interface>>
+    }
+    class ServicoDao {
+        <<interface>>
+    }
+    class CategoriaDao {
+        <<interface>>
+    }
 
-    class Distrito { Integer id; String nome; String zona }
-    class Categoria { Integer id; String nome }
-    class Servico { Integer id; String nome; Integer gols; Integer minutos; BigDecimal chance30d }
-    class Morador { Long id; String nome; String email; String senha; Perfil perfil; LocalDate dataCadastro }
-    class Rodada { Integer id; Integer numero; LocalDate inicio; LocalDate fim }
-    class Partida { Long id; Long golsCasa; Long golsFora }
-    class Chamado { Long id; String referencia; StatusChamado status; LocalDate dataAbertura; LocalDate dataResolucao; Boolean virouGol }
-    class Confirmacao { Long id; ResultadoVar resultado; String fotoUrl; LocalDate data }
-    class Gol { Long id; Integer valor; LocalDate dataValidacao }
+    class Distrito {
+        -Integer id
+        -String nome
+        -String zona
+    }
+    class Categoria {
+        -Integer id
+        -String nome
+    }
+    class Servico {
+        -Integer id
+        -String nome
+        -Integer gols
+        -Integer minutos
+        -BigDecimal chance30d
+    }
+    class Morador {
+        -Long id
+        -String nome
+        -String email
+        -String senha
+        -Perfil perfil
+        -LocalDate dataCadastro
+    }
+    class Rodada {
+        -Integer id
+        -Integer numero
+        -LocalDate inicio
+        -LocalDate fim
+    }
+    class Partida {
+        -Long id
+        -Long golsCasa
+        -Long golsFora
+    }
+    class Chamado {
+        -Long id
+        -String referencia
+        -StatusChamado status
+        -LocalDate dataAbertura
+        -LocalDate dataResolucao
+        -Boolean virouGol
+    }
+    class Confirmacao {
+        -Long id
+        -ResultadoVar resultado
+        -String fotoUrl
+        -LocalDate data
+    }
+    class Gol {
+        -Long id
+        -Integer valor
+        -LocalDate dataValidacao
+    }
 
     AuthController --> MoradorBO
     AuthController --> JwtUtil

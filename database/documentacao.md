@@ -2,16 +2,15 @@
 
 **Global Solution 2026.2 · Database Design**
 
-**Equipe:** [nome da equipe]
+**Equipe:** Várzea
 **Solução:** Várzea
 
 **Integrantes, em ordem alfabética:**
 
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
+- Gabriel Santos - RM 562419
+- Gustavo Rocha - RM 564152
+- Thiago Nascimento - RM 561967
+- Vinicius Herreira - RM 565662
 
 ---
 

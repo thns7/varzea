@@ -23,7 +23,7 @@ CitizenTech da Global Solution FIAP 2026. Cada distrito de São Paulo é um time
 
 | Pasta | Disciplina | Conteúdo |
 | --- | --- | --- |
-| [`varzea-app`](varzea-app/README.md) | Demonstração e pitch | MVP e página de vendas, com React e Supabase |
+| [`varzea-app`](varzea-app/README.md) | Demonstração e pitch | MVP com mapa 3D da cidade, com React, Three.js e Supabase. No ar em https://varzea-flame.vercel.app |
 | [`java-api`](java-api/documentacao.md) | Domain Driven Design - Java | API REST com Spring Boot e Oracle |
 | [`database`](database/documentacao.md) | Database Design | Modelo de dados e scripts SQL para Oracle |
 | [`data-science`](data-science/varzea_sp156.ipynb) | Data Science | Regressões linear e logística com dados do SP156 |
@@ -43,8 +43,7 @@ O projeto usou IA como copiloto. Os pedidos estão em [`prompts.md`](prompts.md)
 
 ## Equipe
 
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
-- [Nome completo] - RM [00000]
+- Gabriel Santos - RM 562419
+- Gustavo Rocha - RM 564152
+- Thiago Nascimento - RM 561967
+- Vinicius Herreira - RM 565662

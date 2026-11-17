@@ -4,7 +4,9 @@ MVP da CitizenTech da Global Solution FIAP 2026. Cada distrito de São Paulo é 
 
 ## O que já funciona
 
-- Página de vendas com tabela ao vivo e lista de interesse.
+- Mapa 3D de São Paulo com os 96 distritos (contornos do GeoSampa): o distrito sobe e fica vermelho conforme os gols.
+- Letreiro com os últimos gols, pódio e classificação, no celular e no computador.
+- Modo avaliação: entra sem cadastro, e um VAR de teste com dois vizinhos simulados permite marcar um gol sozinho.
 - Conta por e-mail e escolha do time entre os 96 distritos.
 - Abertura de chamado, com foto opcional.
 - Marcação como resolvido e VAR com foto obrigatória.
@@ -36,7 +38,7 @@ Abra `http://localhost:5173`. Precisa de Node 20 ou mais recente.
 
 ## Stack
 
-React, TypeScript e Vite no front. Supabase no banco, login e fotos. As regras do jogo estão em `supabase/migrations/0001_esquema.sql`, no banco, para o navegador não conseguir burlar.
+React, TypeScript, Vite e Three.js no front. Supabase no banco, login e fotos. As regras do jogo estão em `supabase/migrations/` (`0001_esquema.sql` e `0003_modo_avaliacao.sql`), no banco, para o navegador não conseguir burlar.
 
 O design segue a skill `varzea-design`: fundo `#0F0F0F`, papel `#EBE6E6`, vermelho `#A31923`, Bebas Neue e Montserrat.
 

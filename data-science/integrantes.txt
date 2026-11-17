@@ -1,10 +1,9 @@
 Várzea - Global Solution 2026.2 - Data Science & Statistical Computing
 
-[Nome completo] - RM [00000]
-[Nome completo] - RM [00000]
-[Nome completo] - RM [00000]
-[Nome completo] - RM [00000]
-[Nome completo] - RM [00000]
+Gabriel Santos - RM 562419
+Gustavo Rocha - RM 564152
+Thiago Nascimento - RM 561967
+Vinicius Herreira - RM 565662
 
 Fonte dos dados: Portal de Dados Abertos da Prefeitura de São Paulo, conjunto "Dados do SP156",
 arquivo arquivo-final-4-trim-25.csv (4º trimestre de 2025).

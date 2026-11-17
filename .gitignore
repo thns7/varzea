@@ -19,3 +19,6 @@ credenciais-demo.txt
 
 # Lista de campo com endereços: fica fora do repositório
 auditoria/
+
+# Pacotes de entrega (ZIPs e PDFs gerados)
+entregas/
