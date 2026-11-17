@@ -46,7 +46,7 @@ O banco de dados organiza as informações do jogo, para apoiar a decisão de on
 
 ## 3. Modelo de dados
 
-> **Inserir aqui a imagem do Diagrama do Modelo Lógico exportada do Oracle Data Modeler.** Não usar link em nuvem.
+![Modelo lógico exportado do Oracle Data Modeler](modelo_logico.png)
 
 ### Relacionamentos e cardinalidades
 

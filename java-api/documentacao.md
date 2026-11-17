@@ -302,7 +302,7 @@ Resposta, com `desfecho` igual a `AGUARDANDO`, `GOL` ou `ANULADO`:
 
 ## 5. Diagrama Entidade-Relacionamento
 
-> Usar a mesma imagem exportada do Oracle Data Modeler na entrega de Database.
+![Modelo lógico exportado do Oracle Data Modeler](../database/modelo_logico.png)
 
 Tabelas: `T_VZ_DISTRITO`, `T_VZ_CATEGORIA`, `T_VZ_SERVICO`, `T_VZ_MORADOR`, `T_VZ_RODADA`, `T_VZ_PARTIDA`, `T_VZ_CHAMADO`, `T_VZ_CONFIRMACAO` e `T_VZ_GOL`.
 
